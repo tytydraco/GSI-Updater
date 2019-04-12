@@ -42,9 +42,12 @@ update_from_tree() {
 }
 
 echo "Pulling from these parameters:"
-echo "USER: $user"
-echo "FORK: $fork"
-echo "BRANCH: $branch"
+echo "DT USER: $dt_user"
+echo "DT FORK: $dt_fork"
+echo "DT BRANCH: $dt_branch"
+echo "HW OVERLAY USER: $hw_overlay_user"
+echo "HW OVERLAY FORK: $hw_overlay_fork"
+echo "HW OVERLAY BRANCH: $hw_overlay_branch"
 echo "GAPPS: $gapps"
 
 echo "Mounting /system as rw..."
