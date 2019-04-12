@@ -61,4 +61,4 @@ echo "Mounting /system as ro..."
 mount -o ro,remount /system
 
 echo "Refreshing rw-system.sh..."
-./system/bin/rw-system.sh
+/system/bin/rw-system.sh
