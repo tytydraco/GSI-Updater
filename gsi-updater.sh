@@ -36,7 +36,7 @@ update_from_tree() {
 		lh="$(echo "$line" | sed 's/:.*//')"
 		rh="$(echo "$line" | sed 's/.*://')"
 		echo $lh \> $p$rh
-		mkdir -p "$(dirname $rh)"
+		mkdir -p "$(dirname $p$rh)"
 		wget -q --no-check-certificate -O- $current_raw/$lh > $p$rh
 	done <<< "$1"
 }
