@@ -33,26 +33,25 @@ get_hw_overlay_from_tree() {
 		| sed 's/\\//')"
 }
 
-update_from_tree() {
-	[ -z "$1" ] && return
-
-	while read -r line; do
-		lh="$(echo "$line" | sed 's/:.*//')"
-		rh="$(echo "$line" | sed 's/.*://')"
-		echo $lh \> $system/$rh
-		mkdir -p "$(dirname $system/$rh)"
-		wget -q --no-check-certificate -O- $current_raw/$lh > $system/$rh
-	done <<< "$1"
-}
-
 mount -o rw,remount /system
 
 current_raw="$dt_raw"
-update_from_tree "$(get_dt_from_tree "base.mk")"
-[ ! -z "$gapps" ] && update_from_tree "$(get_dt_from_tree $gapps.mk)"
+dt_files="$(get_dt_from_tree "base.mk")"
+gapps_files="$(get_dt_from_tree $gapps.mk)"
 
 current_raw="$hw_overlay_raw"
-update_from_tree "$(get_hw_overlay_from_tree "overlay.mk")"
+hw_overlay_files="$(get_hw_overlay_from_tree "overlay.mk")"
+
+newline=$'\n'
+files="$dt_files $newline $gapps_files $newline $hw_overlay_files"
+echo $files
+[ ! -z "$files" ] && while read -r line; do
+	lh="$(echo "$line" | sed 's/:.*//')"
+	rh="$(echo "$line" | sed 's/.*://')"
+	echo $lh \> $system/$rh
+	mkdir -p "$(dirname $system/$rh)"
+	wget -q --no-check-certificate -O- $current_raw/$lh > $system/$rh
+done <<< "$files"
 
 mount -o ro,remount /system
 
