@@ -45,16 +45,6 @@ update_from_tree() {
 	done <<< "$1"
 }
 
-echo "Pulling from these parameters:"
-echo "DT USER: $dt_user"
-echo "DT FORK: $dt_fork"
-echo "DT BRANCH: $dt_branch"
-echo "HW OVERLAY USER: $hw_overlay_user"
-echo "HW OVERLAY FORK: $hw_overlay_fork"
-echo "HW OVERLAY BRANCH: $hw_overlay_branch"
-echo "GAPPS: $gapps"
-
-echo "Mounting /system as rw..."
 mount -o rw,remount /system
 
 current_raw="$dt_raw"
@@ -64,8 +54,6 @@ update_from_tree "$(get_dt_from_tree "base.mk")"
 current_raw="$hw_overlay_raw"
 update_from_tree "$(get_hw_overlay_from_tree "overlay.mk")"
 
-echo "Mounting /system as ro..."
 mount -o ro,remount /system
 
-echo "Refreshing rw-system.sh..."
 /system/bin/rw-system.sh
