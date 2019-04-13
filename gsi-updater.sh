@@ -18,9 +18,9 @@ hw_overlay_raw="https://raw.githubusercontent.com/$hw_overlay_user/$hw_overlay_f
 
 # Use local system directory when testing
 if [ "$test_mode" = "true" ]; then
-	system="./system"
+	system="./"
 else
-	system="/system"
+	system="/"
 fi
 
 get_dt_from_tree() {
@@ -56,8 +56,8 @@ files="$dt_files $newline $gapps_files $newline $hw_overlay_files"
 	lh="$(echo "$line" | sed 's/:.*//')"
 	rh="$(echo "$line" | sed 's/.*://')"
 	echo $lh \> $system/$rh
-	mkdir -p "$(dirname $system/$rh)"
-	wget -q --no-check-certificate -O- $current_raw/$lh > $system/$rh
+	mkdir -p "$(dirname $system$rh)"
+	wget -q --no-check-certificate -O- $current_raw/$lh > $system$rh
 done <<< "$files"
 [ "$test_mode" = "false" ] && mount_system ro
 
