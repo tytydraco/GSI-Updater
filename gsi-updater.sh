@@ -1,6 +1,8 @@
 #!/system/bin/sh
 
 # Tune these according to your preferences
+test_mode=true
+
 dt_branch="android-9.0"
 dt_user="phhusson"
 dt_fork="device_phh_treble"
@@ -13,9 +15,11 @@ hw_overlay_raw="https://raw.githubusercontent.com/$hw_overlay_user/$hw_overlay_f
 
 gapps="gapps"	# Optional: gapps, gapps-go
 
-# Setting this to "/" will actually write to the system.
-# Setting this to "./" will write to a local directory
-p="/"
+if [ "$test_mode" = "true" ]; then
+	system="./system"
+else
+	system="/system"
+fi
 
 get_dt_from_tree() {
 	echo "$(wget -q --no-check-certificate -O- $dt_raw/$1 \
@@ -35,9 +39,9 @@ update_from_tree() {
 	while read -r line; do
 		lh="$(echo "$line" | sed 's/:.*//')"
 		rh="$(echo "$line" | sed 's/.*://')"
-		echo $lh \> $p$rh
-		mkdir -p "$(dirname $p$rh)"
-		wget -q --no-check-certificate -O- $current_raw/$lh > $p$rh
+		echo $lh \> $system/$rh
+		mkdir -p "$(dirname $system/$rh)"
+		wget -q --no-check-certificate -O- $current_raw/$lh > $system/$rh
 	done <<< "$1"
 }
 
