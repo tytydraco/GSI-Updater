@@ -1,7 +1,7 @@
 #!/system/bin/sh
 
 # Tune these according to your preferences
-test_mode=true
+test_mode=false
 gapps="gapps"	# Optional: gapps, gapps-go
 
 # Parameters for the device tree repo
