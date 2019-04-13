@@ -35,6 +35,10 @@ get_hw_overlay_from_tree() {
 		| sed 's/\\//')"
 }
 
+mount_system() {
+	mount -o $1,remount /system
+}
+
 # Fetch files from the device tree repo
 dt_files="$(get_dt_from_tree "base.mk")"
 gapps_files="$(get_dt_from_tree $gapps.mk)"
@@ -48,7 +52,7 @@ files="$dt_files $newline $gapps_files $newline $hw_overlay_files"
 echo $files
 
 # Pull and write files to system
-mount -o rw,remount /system
+[ "$test_mode" = "false" ] && mount_system rw
 [ ! -z "$files" ] && while read -r line; do
 	lh="$(echo "$line" | sed 's/:.*//')"
 	rh="$(echo "$line" | sed 's/.*://')"
@@ -56,7 +60,7 @@ mount -o rw,remount /system
 	mkdir -p "$(dirname $system/$rh)"
 	wget -q --no-check-certificate -O- $current_raw/$lh > $system/$rh
 done <<< "$files"
-mount -o ro,remount /system
+[ "$test_mode" = "false" ] && mount_system ro
 
 # Update changes using rw-system
 /system/bin/rw-system.sh
