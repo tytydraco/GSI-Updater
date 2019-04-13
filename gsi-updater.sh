@@ -44,15 +44,10 @@ mount_system() {
 	mount -o $1,remount /system
 }
 
-# Fetch files from the device tree repo
+# Fetch files from the specified repos
 dt_files="$(get_dt_from_tree "base.mk")"
 gapps_files="$(get_dt_from_tree $gapps.mk)"
-
-# Fetch files from the hardware overlay repo
 hw_overlay_files="$(get_hw_overlay_from_tree "overlay.mk")"
-
-# Append files
-newline=$'\n'
 
 # Pull and write files to system
 mount_system rw
