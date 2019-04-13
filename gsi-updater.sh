@@ -2,6 +2,7 @@
 
 # Tune these according to your preferences
 test_mode=true
+gapps="gapps"	# Optional: gapps, gapps-go
 
 # Parameters for the device tree repo
 dt_branch="android-9.0"
@@ -14,8 +15,6 @@ hw_overlay_branch="master"
 hw_overlay_user="phhusson"
 hw_overlay_fork="vendor_hardware_overlay"
 hw_overlay_raw="https://raw.githubusercontent.com/$hw_overlay_user/$hw_overlay_fork/$hw_overlay_branch"
-
-gapps="gapps"	# Optional: gapps, gapps-go
 
 # Use local system directory when testing
 if [ "$test_mode" = "true" ]; then
