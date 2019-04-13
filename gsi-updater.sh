@@ -35,11 +35,9 @@ get_hw_overlay_from_tree() {
 
 mount -o rw,remount /system
 
-current_raw="$dt_raw"
 dt_files="$(get_dt_from_tree "base.mk")"
 gapps_files="$(get_dt_from_tree $gapps.mk)"
 
-current_raw="$hw_overlay_raw"
 hw_overlay_files="$(get_hw_overlay_from_tree "overlay.mk")"
 
 newline=$'\n'
