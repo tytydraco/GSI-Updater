@@ -57,4 +57,4 @@ write_files "$hw_overlay_files" "vendor"
 mount_system ro
 
 # Update changes using rw-system
-/system/bin/rw-system.sh
+/system/bin/rw-system.sh &> /dev/null
