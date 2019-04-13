@@ -28,7 +28,7 @@ get_hw_overlay_from_tree() {
 }
 
 write_files() {
-	[ ! -z "$1" ] && while read -r line; do
+	[ ! -z "$1" ] && [ ! -z "$2" ] && while read -r line; do
 		lh="$(echo "$line" | sed 's/:.*//')"
 		rh="$(echo "$line" | sed 's/.*://')"
 		echo $lh \> $system/$rh
