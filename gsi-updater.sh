@@ -33,7 +33,6 @@ write_files() {
 		rh="$(echo "$line" | sed 's/.*://')"
 		echo $lh \> $system/$rh
 		mkdir -p "$(dirname /$rh)"
-		type=$(echo $lhs | sed 's/\/.*//')
 		[ "$2" = "device" ] && current_raw=$dt_raw
 		[ "$2" = "vendor" ] && current_raw=$hw_overlay_raw
 		wget -q --no-check-certificate -O- $current_raw/$lh > /$rh
