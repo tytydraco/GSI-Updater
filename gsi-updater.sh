@@ -33,8 +33,6 @@ get_hw_overlay_from_tree() {
 		| sed 's/\\//')"
 }
 
-mount -o rw,remount /system
-
 dt_files="$(get_dt_from_tree "base.mk")"
 gapps_files="$(get_dt_from_tree $gapps.mk)"
 
@@ -43,6 +41,8 @@ hw_overlay_files="$(get_hw_overlay_from_tree "overlay.mk")"
 newline=$'\n'
 files="$dt_files $newline $gapps_files $newline $hw_overlay_files"
 echo $files
+
+mount -o rw,remount /system
 [ ! -z "$files" ] && while read -r line; do
 	lh="$(echo "$line" | sed 's/:.*//')"
 	rh="$(echo "$line" | sed 's/.*://')"
@@ -50,7 +50,6 @@ echo $files
 	mkdir -p "$(dirname $system/$rh)"
 	wget -q --no-check-certificate -O- $current_raw/$lh > $system/$rh
 done <<< "$files"
-
 mount -o ro,remount /system
 
 /system/bin/rw-system.sh
