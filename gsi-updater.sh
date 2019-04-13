@@ -3,11 +3,13 @@
 # Tune these according to your preferences
 test_mode=true
 
+# Parameters for the device tree repo
 dt_branch="android-9.0"
 dt_user="phhusson"
 dt_fork="device_phh_treble"
 dt_raw="https://raw.githubusercontent.com/$dt_user/$dt_fork/$dt_branch"
 
+# Parameters for the hardware overlay repo
 hw_overlay_branch="master"
 hw_overlay_user="phhusson"
 hw_overlay_fork="vendor_hardware_overlay"
@@ -15,6 +17,7 @@ hw_overlay_raw="https://raw.githubusercontent.com/$hw_overlay_user/$hw_overlay_f
 
 gapps="gapps"	# Optional: gapps, gapps-go
 
+# Use local system directory when testing
 if [ "$test_mode" = "true" ]; then
 	system="./system"
 else
@@ -33,15 +36,19 @@ get_hw_overlay_from_tree() {
 		| sed 's/\\//')"
 }
 
+# Fetch files from the device tree repo
 dt_files="$(get_dt_from_tree "base.mk")"
 gapps_files="$(get_dt_from_tree $gapps.mk)"
 
+# Fetch files from the hardware overlay repo
 hw_overlay_files="$(get_hw_overlay_from_tree "overlay.mk")"
 
+# Append files
 newline=$'\n'
 files="$dt_files $newline $gapps_files $newline $hw_overlay_files"
 echo $files
 
+# Pull and write files to system
 mount -o rw,remount /system
 [ ! -z "$files" ] && while read -r line; do
 	lh="$(echo "$line" | sed 's/:.*//')"
@@ -52,4 +59,5 @@ mount -o rw,remount /system
 done <<< "$files"
 mount -o ro,remount /system
 
+# Update changes using rw-system
 /system/bin/rw-system.sh
