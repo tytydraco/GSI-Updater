@@ -1,7 +1,7 @@
 #!/system/bin/sh
 
 # Tune these according to your preferences
-test_mode=false
+test_mode=true
 gapps="gapps"	# Optional: gapps, gapps-go
 
 # Parameters for the device tree repo
@@ -18,7 +18,7 @@ hw_overlay_raw="https://raw.githubusercontent.com/$hw_overlay_user/$hw_overlay_f
 
 # Use local system directory when testing
 if [ "$test_mode" = "true" ]; then
-	system="./"
+	system="."
 else
 	system="/"
 fi
