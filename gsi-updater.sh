@@ -49,7 +49,6 @@ hw_overlay_files="$(get_hw_overlay_from_tree "overlay.mk")"
 # Append files
 newline=$'\n'
 files="$dt_files $newline $gapps_files $newline $hw_overlay_files"
-echo $files
 
 # Pull and write files to system
 [ "$test_mode" = "false" ] && mount_system rw
