@@ -57,6 +57,9 @@ files="$dt_files $newline $gapps_files $newline $hw_overlay_files"
 	rh="$(echo "$line" | sed 's/.*://')"
 	echo $lh \> $system/$rh
 	mkdir -p "$(dirname $system$rh)"
+	type=$(echo $lhs | sed 's/\/.*//')
+	[ "$type" = "device" ] && current_raw=$dt_raw
+	[ "$type" = "vendor" ] && current_raw=$hw_overlay_raw
 	wget -q --no-check-certificate -O- $current_raw/$lh > $system$rh
 done <<< "$files"
 [ "$test_mode" = "false" ] && mount_system ro
